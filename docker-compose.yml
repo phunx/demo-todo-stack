@@ -3,23 +3,24 @@ services:
   db:
     image: postgres
   api:
-    build: .
+    build: ./api-service
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
-    command: python manage.py runserver
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
+    command: python manage.py runserver -h 0.0.0.0 -p 5000
     volumes:
-      - .:/src
+      - ./api-service:/src
     ports:
       - "5000:5000"
     depends_on:
       - db
   web:
-    build: ./static
+    build: ./web-client
     environment:
       API_URL: http://api:5000/
     command: npm start
     volumes:
-      - ./static:/src
+      - ./web-client:/src
+      - /src/node_modules
     ports:
       - "3000:3000"
     depends_on:
