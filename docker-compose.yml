@@ -1,0 +1,26 @@
+version: '2'
+services:
+  db:
+    image: postgres
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+    command: python manage.py runserver
+    volumes:
+      - .:/src
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+  web:
+    build: ./static
+    environment:
+      API_URL: http://api:5000/
+    command: npm start
+    volumes:
+      - ./static:/src
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api

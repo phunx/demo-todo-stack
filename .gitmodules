@@ -1,0 +1,6 @@
+[submodule "api-service"]
+	path = api-service
+	url = git@github.com:phunx/demo-todo-api-service.git
+[submodule "web-client"]
+	path = web-client
+	url = git@github.com:phunx/demo-todo-web-client.git
